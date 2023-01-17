@@ -55,11 +55,12 @@ const config: HardhatUserConfig = {
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     polygon: {
-      url: `https://polygon-mainnet.g.alchemy.com/v2/uf5UrDryIg7umF1vd3utMXw1uI5p54sr`,
+      url: `https://polygon-rpc.com`, // `https://matic-mainnet.chainstacklabs.com`,
       accounts: [process.env.MAINNET_PRIVATE_KEY],
+      gasPrice: "auto",
     },
     polygonMumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/_anjj3tgTgu1Zqx9Lj_x5fQnDM2bAdrI`,
+      url: `https://polygon-mumbai.infura.io/v3/97e75e0bbc6a4419a5dd7fe4a518b917`,
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     bsc: {
