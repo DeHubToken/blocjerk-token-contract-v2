@@ -54,6 +54,10 @@ const config: HardhatUserConfig = {
       url: `https://goerli.infura.io/v3/fa959ead3761429bafa6995a4b25397e`,
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
+    sepolia: {
+      url: `https://ethereum-sepolia.publicnode.com`,
+      accounts: [process.env.TESTNET_PRIVATE_KEY],
+    },
     polygon: {
       url: `https://polygon-rpc.com`, // `https://matic-mainnet.chainstacklabs.com`,
       accounts: [process.env.MAINNET_PRIVATE_KEY],
@@ -75,6 +79,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       goerli: process.env.ETHERSCAN_API_KEY,
+      sepolia: process.env.ETHERSCAN_API_KEY,
       mainnet: process.env.ETHERSCAN_API_KEY,
       polygon: process.env.POLYGONSCAN_API_KEY,
       polygonMumbai: process.env.POLYGONSCAN_API_KEY,

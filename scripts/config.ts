@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 type Network =
   | "mainnet"
   | "goerli"
+  | "sepolia"
   | "polygon"
   | "polygonMumbai"
   | "bsc"
@@ -36,6 +37,16 @@ export const config: { [network in Network]: Config } = {
   goerli: {
     ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
     treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
+    totalSupply: ethers.BigNumber.from(oneBillion)
+      .mul(15)
+      .div(10)
+      .mul(decimals),
+    name: "DeHub",
+    symbol: "DHB",
+  },
+  sepolia: {
+    ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
+    treasuryAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
     totalSupply: ethers.BigNumber.from(oneBillion)
       .mul(15)
       .div(10)

@@ -233,7 +233,10 @@ contract DeHubTokenV3 is
     }
   }
 
-  function burnBulk(address[] calldata accounts, uint256[] calldata amounts) external onlyOwner {
+  function burnBulk(
+    address[] calldata accounts,
+    uint256[] calldata amounts
+  ) external onlyOwner {
     require(accounts.length == amounts.length, "Invalid argument");
     uint256 len = accounts.length;
     for (uint256 i = 0; i < len; ++i) {

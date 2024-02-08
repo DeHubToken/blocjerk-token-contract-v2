@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers, network } from "hardhat";
-import { DeHubTokenV3__factory } from "../typechain";
+import { DeHubTokenV4__factory } from "../typechain";
 import { verifyContract } from "./helpers";
 
 const main = async () => {
@@ -15,12 +15,13 @@ const main = async () => {
   if (
     network.name === "mainnet" ||
     network.name === "goerli" ||
+    network.name === "sepolia" ||
     network.name === "polygon" ||
     network.name === "polygonMumbai" ||
     network.name === "bsc" ||
     network.name === "bscTestnet"
   ) {
-    const DeHubTokenFactory = new DeHubTokenV3__factory(deployer);
+    const DeHubTokenFactory = new DeHubTokenV4__factory(deployer);
     const dehubToken = await DeHubTokenFactory.deploy();
     await dehubToken.deployed();
 
