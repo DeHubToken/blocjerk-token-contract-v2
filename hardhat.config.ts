@@ -47,7 +47,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     mainnet: {
-      url: `https://eth-mainnet.alchemyapi.io/v2/-nhhIZg46QlTmzPozXF07vyxpK5BGukx`,
+      url: `https://eth-mainnet.public.blastapi.io`,
       accounts: [process.env.MAINNET_PRIVATE_KEY],
     },
     goerli: {

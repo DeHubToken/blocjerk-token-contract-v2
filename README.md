@@ -87,3 +87,11 @@ addPoolToTax(
   [pool address]
 )
 ```
+
+## Contract Addresses
+
+Network | Contract Address
+--- | ---
+Ethereum | 0x99BB69Ee1BbFC7706C3ebb79b21C5B698fe58EC0
+Polygon | 0x6051e59eb50BB568415B6C476Fbd394EEF83834D
+Binance Smart Chain | 0x680D3113caf77B61b510f332D5Ef4cf5b41A761D
