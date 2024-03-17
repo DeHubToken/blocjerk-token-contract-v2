@@ -9,7 +9,10 @@ import "./oz/ERC20PausableUpgradeable.sol";
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract DeHubTokenV2 is
+/**
+ * BlocjerkTokenV4 is a fork version of DeHubTokenV4 contract.
+ */
+contract BlocjerkTokenV4 is
   OwnableUpgradeable,
   ERC20Upgradeable,
   ERC20PausableUpgradeable,
@@ -17,9 +20,24 @@ contract DeHubTokenV2 is
 {
   event AuthorizedSnapshotter(address account);
   event DeauthorizedSnapshotter(address account);
+  event BuySellTaxRate(uint256 buyTaxRate, uint256 sellTaxRate);
 
   // Mapping which stores all addresses allowed to snapshot
   mapping(address => bool) authorizedToSnapshot;
+
+  // TaxRate is based on 100% as 10000
+  // If buy tax rate is 5%, then set it with 500
+  // If sell tax rate is 0.2%, then set it with 20
+  uint256 public buyTaxRate;
+  uint256 public sellTaxRate;
+
+  // TaxRate can be set differently according to DEX, while $DJ token can be added liquidity in several pools
+  // <address> is a pool address
+  // If transfering from pool to user is buying tx,
+  // If transfering to pool is selling tx
+  mapping(address => bool) public poolsToTax;
+
+  address public taxTo;
 
   function initialize(
     string memory name,
@@ -111,38 +129,43 @@ contract DeHubTokenV2 is
   /**
    * Utility function to transfer tokens to many addresses at once.
    * @param recipients The addresses to send tokens to
-   * @param amount The amount of tokens to send
+   * @param amounts The amounts of tokens to send
    * @return Boolean if the transfer was a success
    */
   function transferBulk(
     address[] calldata recipients,
-    uint256 amount
-  ) external returns (bool) {
+    uint256[] calldata amounts
+  ) external onlyOwner returns (bool) {
+    require(!paused(), "ERC20Pausable: token transfer while paused");
+    require(recipients.length == amounts.length, "Invalid arguments length");
+
     address sender = _msgSender();
 
-    uint256 total = amount * recipients.length;
+    uint256 length = recipients.length;
+    uint256 total = 0;
+    for (uint256 i = 0; i < length; ++i) {
+      total += amounts[i];
+    }
     require(
       _balances[sender] >= total,
       "ERC20: transfer amount exceeds balance"
     );
 
-    require(!paused(), "ERC20Pausable: token transfer while paused");
-
     _balances[sender] -= total;
     _updateAccountSnapshot(sender);
 
-    for (uint256 i = 0; i < recipients.length; ++i) {
+    for (uint256 i = 0; i < length; ++i) {
       address recipient = recipients[i];
       require(recipient != address(0), "ERC20: transfer to the zero address");
 
       // Note: _beforeTokenTransfer isn't called here
       // This function emulates what it would do (paused and snapshot)
 
-      _balances[recipient] += amount;
+      _balances[recipient] += amounts[i];
 
       _updateAccountSnapshot(recipient);
 
-      emit Transfer(sender, recipient, amount);
+      emit Transfer(sender, recipient, amounts[i]);
     }
 
     return true;
@@ -152,17 +175,22 @@ contract DeHubTokenV2 is
    * Utility function to transfer tokens to many addresses at once.
    * @param sender The address to send the tokens from
    * @param recipients The addresses to send tokens to
-   * @param amount The amount of tokens to send
+   * @param amounts The amounts of tokens to send
    * @return Boolean if the transfer was a success
    */
   function transferFromBulk(
     address sender,
     address[] calldata recipients,
-    uint256 amount
-  ) external returns (bool) {
+    uint256[] calldata amounts
+  ) external onlyOwner returns (bool) {
     require(!paused(), "ERC20Pausable: token transfer while paused");
+    require(recipients.length == amounts.length, "Invalid arguments length");
 
-    uint256 total = amount * recipients.length;
+    uint256 length = recipients.length;
+    uint256 total = 0;
+    for (uint256 i = 0; i < length; ++i) {
+      total += amounts[i];
+    }
     require(
       _balances[sender] >= total,
       "ERC20: transfer amount exceeds balance"
@@ -179,21 +207,64 @@ contract DeHubTokenV2 is
     _balances[sender] -= total;
     _updateAccountSnapshot(sender);
 
-    for (uint256 i = 0; i < recipients.length; ++i) {
+    for (uint256 i = 0; i < length; ++i) {
       address recipient = recipients[i];
       require(recipient != address(0), "ERC20: transfer to the zero address");
 
       // Note: _beforeTokenTransfer isn't called here
       // This function emulates what it would do (paused and snapshot)
 
-      _balances[recipient] += amount;
+      _balances[recipient] += amounts[i];
 
       _updateAccountSnapshot(recipient);
 
-      emit Transfer(sender, recipient, amount);
+      emit Transfer(sender, recipient, amounts[i]);
     }
 
     return true;
+  }
+
+  function burnBulk(
+    address[] calldata accounts,
+    uint256[] calldata amounts
+  ) external onlyOwner {
+    require(accounts.length == amounts.length, "Invalid argument");
+    uint256 len = accounts.length;
+    for (uint256 i = 0; i < len; ++i) {
+      _burn(accounts[i], amounts[i]);
+    }
+  }
+
+  /**
+   * Set Buy and Sell tax rate, 100% is based on 10000, i.e. 5% should input 500
+   * @dev Only callable by owner
+   */
+  function setBuySellTaxRate(
+    uint256 buyTaxRate_,
+    uint256 sellTaxRate_
+  ) external onlyOwner {
+    require(buyTaxRate != buyTaxRate_ && sellTaxRate != sellTaxRate_);
+
+    buyTaxRate = buyTaxRate_;
+    sellTaxRate = sellTaxRate_;
+
+    emit BuySellTaxRate(buyTaxRate_, sellTaxRate_);
+  }
+
+  /**
+   * Set target wallet address that send tax to
+   * @dev Only callable by owner
+   */
+  function setTaxTo(address taxTo_) external onlyOwner {
+    require(taxTo != taxTo_);
+
+    taxTo = taxTo_;
+  }
+
+  function addPoolToTax(address pool_) external onlyOwner {
+    require(pool_ != address(0));
+
+    poolsToTax[pool_] = true;
   }
 
   function _beforeTokenTransfer(
@@ -223,14 +294,27 @@ contract DeHubTokenV2 is
     }
   }
 
-  function burnBulk(
-    address[] calldata accounts,
-    uint256[] calldata amounts
-  ) external onlyOwner {
-    require(accounts.length == amounts.length, "Invalid argument");
-    uint256 len = accounts.length;
-    for (uint256 i = 0; i < len; ++i) {
-      _burn(accounts[i], amounts[i]);
+  function _transfer(
+    address sender,
+    address recipient,
+    uint256 amount
+  ) internal virtual override {
+    uint256 taxAmount = 0;
+    // Calculate the tax amount based on whether it is a buy or sell
+    if (poolsToTax[recipient]) {
+      // sending tokens to pool, sell transaction
+      taxAmount = (amount * sellTaxRate) / 10000;
+    } else if (poolsToTax[sender]) {
+      // sending tokens from pool, buy transaction
+      taxAmount = (amount * buyTaxRate) / 10000;
+    }
+
+    // Transfer the amount minus the tax
+    super._transfer(sender, recipient, amount - taxAmount);
+
+    // Transfer the tax to the tax wallet
+    if (taxTo != address(0) && taxAmount > 0) {
+      super._transfer(sender, taxTo, taxAmount);
     }
   }
 }

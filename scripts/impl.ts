@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers, network } from "hardhat";
-import { DeHubTokenV4__factory } from "../typechain";
+import { BlocjerkTokenV4__factory } from "../typechain";
 import { verifyContract } from "./helpers";
 
 const main = async () => {
@@ -21,11 +21,11 @@ const main = async () => {
     network.name === "bsc" ||
     network.name === "bscTestnet"
   ) {
-    const DeHubTokenFactory = new DeHubTokenV4__factory(deployer);
-    const dehubToken = await DeHubTokenFactory.deploy();
+    const BlocjerkTokenFactory = new BlocjerkTokenV4__factory(deployer);
+    const dehubToken = await BlocjerkTokenFactory.deploy();
     await dehubToken.deployed();
 
-    console.log(`DeHubToken deployed at ${dehubToken.address}`);
+    console.log(`BlocjerkToken deployed at ${dehubToken.address}`);
     await verifyContract(dehubToken.address);
   }
 };

@@ -9,17 +9,17 @@
     "impl": "hardhat run scripts/impl.ts --network"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.12.5",
-    "prettier": "^2.8.1",
-    "prettier-plugin-solidity": "^1.1.1"
+    "@nomicfoundation/hardhat-chai-matchers": "1.0.5",
+    "@nomicfoundation/hardhat-toolbox": "2.0.0",
+    "hardhat": "2.12.5",
+    "prettier": "2.8.1",
+    "prettier-plugin-solidity": "1.1.1"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0",
-    "@openzeppelin/contracts-upgradeable": "^4.8.0",
-    "@openzeppelin/hardhat-upgrades": "^1.22.0",
-    "dotenv": "^16.0.3",
-    "ethers": "^5.7.2"
+    "@openzeppelin/contracts": "4.8.0",
+    "@openzeppelin/contracts-upgradeable": "4.8.0",
+    "@openzeppelin/hardhat-upgrades": "1.22.0",
+    "dotenv": "16.0.3",
+    "ethers": "5.7.2"
   }
 }

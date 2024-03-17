@@ -1,20 +1,20 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x9932bcbf523CDf368a6Bc3E6cB769706531037De",
-    "txHash": "0x675c3e57d871f3530d21fb3781fb2ce4507ef59988cd502dda0f4848176d3857"
+    "address": "0x9194B554a8cA5AF65fFcfca7163B25e83bAb4433",
+    "txHash": "0x55c9f98f651f365cd64470d17309cc2a5f7da3ce04f23788b1b612222afb7d96"
   },
   "proxies": [
     {
-      "address": "0x9Be61D01a99c082CF62567D3f5cd8a4A95a481C8",
-      "txHash": "0xb7ae679064aa31aff6637572c38ff5a3e8323b7544ed0513103b1208474731a5",
+      "address": "0xbc79d7aC162035F29BfB036D6C6C8694B8f5c069",
+      "txHash": "0x616a8d175704cb7c0f59b3c431872496985650dce9cc614ec7cf919d64f2a10d",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "095059c277d3a4ebe108f38068e329af612873f854fd20165eccd349f9b0a76b": {
-      "address": "0x402Eb574Cc27C6DbfEd0827C23ACFD4c6026652e",
-      "txHash": "0x69a0d3f01687bb48760c614d8068d4e5722ea48e8353fcc8eb7d6369dc114a74",
+    "d7a569470b8117ed8d259291588095194ba72231470ba16b09f6a4171e15bb53": {
+      "address": "0x1c77D921c2B0eFb0B20b5318562a27073d28De14",
+      "txHash": "0xb0a4d57dfd3a92375f6231b7cb2d4144161a41172b45d66b3dd1777e5ec5e40c",
       "layout": {
         "solcVersion": "0.8.3",
         "storage": [
@@ -135,7 +135,7 @@
             "label": "_accountBalanceSnapshots",
             "offset": 0,
             "slot": "251",
-            "type": "t_mapping(t_address,t_struct(Snapshots)3875_storage)",
+            "type": "t_mapping(t_address,t_struct(Snapshots)2931_storage)",
             "contract": "ERC20SnapshotUpgradeable",
             "src": "contracts/oz/ERC20SnapshotUpgradeable.sol:55"
           },
@@ -143,7 +143,7 @@
             "label": "_totalSupplySnapshots",
             "offset": 0,
             "slot": "252",
-            "type": "t_struct(Snapshots)3875_storage",
+            "type": "t_struct(Snapshots)2931_storage",
             "contract": "ERC20SnapshotUpgradeable",
             "src": "contracts/oz/ERC20SnapshotUpgradeable.sol:56"
           },
@@ -168,8 +168,40 @@
             "offset": 0,
             "slot": "301",
             "type": "t_mapping(t_address,t_bool)",
-            "contract": "DeHubTokenV3",
-            "src": "contracts/DeHubTokenV3.sol:22"
+            "contract": "BlocjerkTokenV4",
+            "src": "contracts/BlocjerkTokenV4.sol:26"
+          },
+          {
+            "label": "buyTaxRate",
+            "offset": 0,
+            "slot": "302",
+            "type": "t_uint256",
+            "contract": "BlocjerkTokenV4",
+            "src": "contracts/BlocjerkTokenV4.sol:31"
+          },
+          {
+            "label": "sellTaxRate",
+            "offset": 0,
+            "slot": "303",
+            "type": "t_uint256",
+            "contract": "BlocjerkTokenV4",
+            "src": "contracts/BlocjerkTokenV4.sol:32"
+          },
+          {
+            "label": "poolsToTax",
+            "offset": 0,
+            "slot": "304",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "BlocjerkTokenV4",
+            "src": "contracts/BlocjerkTokenV4.sol:38"
+          },
+          {
+            "label": "taxTo",
+            "offset": 0,
+            "slot": "305",
+            "type": "t_address",
+            "contract": "BlocjerkTokenV4",
+            "src": "contracts/BlocjerkTokenV4.sol:40"
           }
         ],
         "types": {
@@ -209,7 +241,7 @@
             "label": "mapping(address => mapping(address => uint256))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(Snapshots)3875_storage)": {
+          "t_mapping(t_address,t_struct(Snapshots)2931_storage)": {
             "label": "mapping(address => struct ERC20SnapshotUpgradeable.Snapshots)",
             "numberOfBytes": "32"
           },
@@ -233,7 +265,7 @@
             ],
             "numberOfBytes": "32"
           },
-          "t_struct(Snapshots)3875_storage": {
+          "t_struct(Snapshots)2931_storage": {
             "label": "struct ERC20SnapshotUpgradeable.Snapshots",
             "members": [
               {

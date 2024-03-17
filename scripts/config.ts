@@ -2,12 +2,12 @@ import { ethers } from "ethers";
 
 type Network =
   | "mainnet"
-  | "goerli"
-  | "sepolia"
-  | "polygon"
-  | "polygonMumbai"
-  | "bsc"
-  | "bscTestnet";
+  // | "goerli"
+  | "sepolia";
+  // | "polygon"
+  // | "polygonMumbai"
+  // | "bsc"
+  // | "bscTestnet";
 
 interface Config {
   ownerAddress: string;
@@ -25,67 +25,66 @@ const decimals = ethers.BigNumber.from(10).pow(numDecimals);
 
 export const config: { [network in Network]: Config } = {
   mainnet: {
-    ownerAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    treasuryAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    totalSupply: ethers.BigNumber.from(oneBillion)
-      .mul(15)
-      .div(10)
+    ownerAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+    treasuryAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+    totalSupply: ethers.BigNumber.from(oneMillion)
+      .mul(10)
       .mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
+    name: "Blocjerk",
+    symbol: "BJ",
   },
-  goerli: {
-    ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
-    treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
-    totalSupply: ethers.BigNumber.from(oneBillion)
-      .mul(15)
-      .div(10)
-      .mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
-  },
+  // goerli: {
+  //   ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
+  //   treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
+  //   totalSupply: ethers.BigNumber.from(oneMillion)
+  //     .mul(10)
+  //     .mul(decimals),
+  //   name: "Blocjerk",
+  //   symbol: "BJ",
+  // },
   sepolia: {
     ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
     treasuryAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
-    totalSupply: ethers.BigNumber.from(oneBillion)
-      .mul(15)
-      .div(10)
+    totalSupply: ethers.BigNumber.from(oneMillion)
+      .mul(10)
       .mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
+    name: "Blocjerk",
+    symbol: "BJ",
   },
-  polygon: {
-    ownerAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    treasuryAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    totalSupply: ethers.BigNumber.from(oneBillion)
-      .mul(15)
-      .div(10)
-      .mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
-  },
-  polygonMumbai: {
-    ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
-    treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
-    totalSupply: ethers.BigNumber.from(oneBillion)
-      .mul(15)
-      .div(10)
-      .mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
-  },
-  bsc: {
-    ownerAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    treasuryAddress: "0xBF3039b0bB672B268e8384e30D81b1e6a8A43b2c",
-    totalSupply: ethers.BigNumber.from(oneBillion).mul(5).mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
-  },
-  bscTestnet: {
-    ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
-    treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
-    totalSupply: ethers.BigNumber.from(oneBillion).mul(5).mul(decimals),
-    name: "DeHub",
-    symbol: "DHB",
-  },
+  // polygon: {
+  //   ownerAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+  //   treasuryAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+  //   totalSupply: ethers.BigNumber.from(oneMillion)
+  //     .mul(10)
+  //     .mul(decimals),
+  //   name: "Blocjerk",
+  //   symbol: "BJ",
+  // },
+  // polygonMumbai: {
+  //   ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
+  //   treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
+  //   totalSupply: ethers.BigNumber.from(oneMillion)
+  //     .mul(10)
+  //     .mul(decimals),
+  //   name: "Blocjerk",
+  //   symbol: "BJ",
+  // },
+  // bsc: {
+  //   ownerAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+  //   treasuryAddress: "0x9F29801aC82befe279786E5691B0399b637C560c",
+  //   totalSupply: ethers.BigNumber.from(oneMillion)
+  //     .mul(10)
+  //     .mul(decimals),
+  //   name: "Blocjerk",
+  //   symbol: "BJ",
+  // },
+  // bscTestnet: {
+  //   ownerAddress: "0xD3b5134fef18b69e1ddB986338F2F80CD043a1AF",
+  //   treasuryAddress: "0xc2cd62B57CBC991beDaC0D49AdCc12F10A9Dc7c0",
+  //   totalSupply: ethers.BigNumber.from(oneMillion)
+  //     .mul(10)
+  //     .mul(decimals),
+  //   name: "Blocjerk",
+  //   symbol: "BJ",
+  // },
 };

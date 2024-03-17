@@ -1,9 +1,8 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers, network, upgrades } from "hardhat";
 import {
-  DeHubToken,
-  DeHubTokenV3__factory,
-  DeHubToken__factory,
+  BlocjerkTokenV4,
+  BlocjerkTokenV4__factory,
 } from "../typechain";
 import { config } from "./config";
 import { verifyContract } from "./helpers";
@@ -19,21 +18,21 @@ const main = async () => {
 
   if (
     network.name === "mainnet" ||
-    network.name === "goerli" ||
-    network.name === "sepolia" ||
-    network.name === "polygon" ||
-    network.name === "polygonMumbai" ||
-    network.name === "bsc" ||
-    network.name === "bscTestnet"
+    // network.name === "goerli" ||
+    network.name === "sepolia"// ||
+    // network.name === "polygon" ||
+    // network.name === "polygonMumbai" ||
+    // network.name === "bsc" ||
+    // network.name === "bscTestnet"
   ) {
-    const DeHubTokenFactory = new DeHubTokenV3__factory(deployer);
-    const dehubToken = (await upgrades.deployProxy(DeHubTokenFactory, [
+    const BlocjerkTokenFactory = new BlocjerkTokenV4__factory(deployer);
+    const dehubToken = (await upgrades.deployProxy(BlocjerkTokenFactory, [
       config[network.name].name,
       config[network.name].symbol,
-    ])) as DeHubToken;
+    ])) as BlocjerkTokenV4;
     await dehubToken.deployed();
 
-    console.log(`DeHubToken deployed at ${dehubToken.address}`);
+    console.log(`BlocjerkToken deployed at ${dehubToken.address}`);
 
     const dehubTokenImpl = await upgrades.erc1967.getImplementationAddress(
       dehubToken.address
@@ -69,11 +68,11 @@ const main = async () => {
         Info: deployer.address,
       },
       {
-        Label: "DeHubToken",
+        Label: "BlocjerkToken",
         Info: dehubToken.address,
       },
       {
-        Label: "DeHubToken impl",
+        Label: "BlocjerkToken impl",
         Info: dehubTokenImpl,
       },
       {
