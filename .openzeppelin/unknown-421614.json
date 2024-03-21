@@ -1,25 +1,25 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x9194B554a8cA5AF65fFcfca7163B25e83bAb4433",
-    "txHash": "0x55c9f98f651f365cd64470d17309cc2a5f7da3ce04f23788b1b612222afb7d96"
+    "address": "0x9932bcbf523CDf368a6Bc3E6cB769706531037De",
+    "txHash": "0x6bd08918ed9e6e1dd32b9ff1ca53f826106a525683a87e28e256e7c486f7d5b1"
   },
   "proxies": [
     {
-      "address": "0xbc79d7aC162035F29BfB036D6C6C8694B8f5c069",
-      "txHash": "0x616a8d175704cb7c0f59b3c431872496985650dce9cc614ec7cf919d64f2a10d",
+      "address": "0x9Be61D01a99c082CF62567D3f5cd8a4A95a481C8",
+      "txHash": "0xa49acdb33fe54e3142f4e24e3dc94cdc148c21fc367e66190fa94ee820dad6e4",
       "kind": "transparent"
     },
     {
-      "address": "0xac2f425B17100476bA9efDF96572c1E1906815e2",
-      "txHash": "0xd9e494cbf07d6a27aad4874b4087ecec02c50f66fee08ca8ce72a818a1618e81",
+      "address": "0x73a539b834150a20b9071DCaF793bA41Dd9663A7",
+      "txHash": "0x1b6f39b7854a9b2f4572606b86e74de9dce212441f07743d2a248efb3b7e7fe0",
       "kind": "transparent"
     }
   ],
   "impls": {
     "d7a569470b8117ed8d259291588095194ba72231470ba16b09f6a4171e15bb53": {
-      "address": "0x1c77D921c2B0eFb0B20b5318562a27073d28De14",
-      "txHash": "0xb0a4d57dfd3a92375f6231b7cb2d4144161a41172b45d66b3dd1777e5ec5e40c",
+      "address": "0x402Eb574Cc27C6DbfEd0827C23ACFD4c6026652e",
+      "txHash": "0x304d882ff04b73c6131d5e1356e062a170899601da44d4271e0931981246e1c9",
       "layout": {
         "solcVersion": "0.8.3",
         "storage": [
@@ -140,7 +140,7 @@
             "label": "_accountBalanceSnapshots",
             "offset": 0,
             "slot": "251",
-            "type": "t_mapping(t_address,t_struct(Snapshots)2931_storage)",
+            "type": "t_mapping(t_address,t_struct(Snapshots)2841_storage)",
             "contract": "ERC20SnapshotUpgradeable",
             "src": "contracts/oz/ERC20SnapshotUpgradeable.sol:55"
           },
@@ -148,7 +148,7 @@
             "label": "_totalSupplySnapshots",
             "offset": 0,
             "slot": "252",
-            "type": "t_struct(Snapshots)2931_storage",
+            "type": "t_struct(Snapshots)2841_storage",
             "contract": "ERC20SnapshotUpgradeable",
             "src": "contracts/oz/ERC20SnapshotUpgradeable.sol:56"
           },
@@ -246,7 +246,7 @@
             "label": "mapping(address => mapping(address => uint256))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(Snapshots)2931_storage)": {
+          "t_mapping(t_address,t_struct(Snapshots)2841_storage)": {
             "label": "mapping(address => struct ERC20SnapshotUpgradeable.Snapshots)",
             "numberOfBytes": "32"
           },
@@ -270,7 +270,7 @@
             ],
             "numberOfBytes": "32"
           },
-          "t_struct(Snapshots)2931_storage": {
+          "t_struct(Snapshots)2841_storage": {
             "label": "struct ERC20SnapshotUpgradeable.Snapshots",
             "members": [
               {

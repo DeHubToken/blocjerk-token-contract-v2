@@ -19,48 +19,52 @@ const main = async () => {
   if (
     network.name === "mainnet" ||
     // network.name === "goerli" ||
-    network.name === "sepolia"// ||
+    network.name === "sepolia" ||
+    network.name === "arb" ||
+    network.name === "arbTestnet"
     // network.name === "polygon" ||
     // network.name === "polygonMumbai" ||
     // network.name === "bsc" ||
     // network.name === "bscTestnet"
   ) {
+    console.log(config[network.name]);
+
     const BlocjerkTokenFactory = new BlocjerkTokenV4__factory(deployer);
-    const dehubToken = (await upgrades.deployProxy(BlocjerkTokenFactory, [
+    const bjToken = (await upgrades.deployProxy(BlocjerkTokenFactory, [
       config[network.name].name,
       config[network.name].symbol,
     ])) as BlocjerkTokenV4;
-    await dehubToken.deployed();
+    await bjToken.deployed();
 
-    console.log(`BlocjerkToken deployed at ${dehubToken.address}`);
+    console.log(`BlocjerkToken deployed at ${bjToken.address}`);
 
-    const dehubTokenImpl = await upgrades.erc1967.getImplementationAddress(
-      dehubToken.address
+    const bjTokenImpl = await upgrades.erc1967.getImplementationAddress(
+      bjToken.address
     );
-    await verifyContract(dehubTokenImpl);
+    // await verifyContract(bjTokenImpl);
 
-    console.log(`Minting tokens...`);
-    const tx = await dehubToken.mint(
-      config[network.name].treasuryAddress,
-      config[network.name].totalSupply
-    );
-    console.log(`Waiting to finish...`);
-    await tx.wait();
-    console.log(`Finished minting`);
+    // console.log(`Minting tokens...`);
+    // const tx = await bjToken.mint(
+    //   config[network.name].treasuryAddress,
+    //   config[network.name].totalSupply
+    // );
+    // console.log(`Waiting to finish...`);
+    // await tx.wait();
+    // console.log(`Finished minting`);
 
-    console.log(
-      `Transferring token ownership to ${config[network.name].ownerAddress}`
-    );
-    await dehubToken.transferOwnership(config[network.name].ownerAddress);
+    // console.log(
+    //   `Transferring token ownership to ${config[network.name].ownerAddress}`
+    // );
+    // await bjToken.transferOwnership(config[network.name].ownerAddress);
 
-    console.log(
-      `Transferring proxy admin ownership to ${
-        config[network.name].ownerAddress
-      }`
-    );
-    await upgrades.admin.transferProxyAdminOwnership(
-      config[network.name].ownerAddress
-    );
+    // console.log(
+    //   `Transferring proxy admin ownership to ${
+    //     config[network.name].ownerAddress
+    //   }`
+    // );
+    // await upgrades.admin.transferProxyAdminOwnership(
+    //   config[network.name].ownerAddress
+    // );
 
     console.table([
       {
@@ -69,11 +73,11 @@ const main = async () => {
       },
       {
         Label: "BlocjerkToken",
-        Info: dehubToken.address,
+        Info: bjToken.address,
       },
       {
         Label: "BlocjerkToken impl",
-        Info: dehubTokenImpl,
+        Info: bjTokenImpl,
       },
       {
         Label: "Owner address",

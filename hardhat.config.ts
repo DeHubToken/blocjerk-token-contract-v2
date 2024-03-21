@@ -16,6 +16,7 @@ declare global {
       ETHERSCAN_API_KEY: string;
       POLYGONSCAN_API_KEY: string;
       BSCSCAN_API_KEY: string;
+      ARBSCAN_API_KEY: string;
     }
   }
 }
@@ -55,7 +56,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     sepolia: {
-      url: `https://ethereum-sepolia.publicnode.com`,
+      url: "https://ethereum-sepolia.blockpi.network/v1/rpc/public", // `https://eth-sepolia.public.blastapi.io`,
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     polygon: {
@@ -75,6 +76,14 @@ const config: HardhatUserConfig = {
       url: `https://bsc-testnet.public.blastapi.io`,
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
+    arb: {
+      url: `https://rpc.chroniclelabs.io/arb1`,
+      accounts: [process.env.MAINNET_PRIVATE_KEY],
+    },
+    arbTestnet: {
+      url: `https://sepolia-rollup.arbitrum.io/rpc`,
+      accounts: [process.env.TESTNET_PRIVATE_KEY],
+    }
   },
   etherscan: {
     apiKey: {
