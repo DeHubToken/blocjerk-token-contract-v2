@@ -55,3 +55,4 @@ Open $BJ contract on etherscan and confirm that contract was upgraded.
 Network | Contract Address
 --- | ---
 Ethereum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
+Arbitrum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
