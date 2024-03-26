@@ -11,3 +11,5 @@ artifacts
 
 # sol-merger folder
 build
+
+.DS_Store
