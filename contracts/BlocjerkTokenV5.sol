@@ -11,7 +11,7 @@ import {console} from "hardhat/console.sol";
  * - Set minimum token amount to sell tax fee
  * - Add upgradeToV5 function to set version
  * - Sell accumulated tax fee for ETH through Uniswap V2 Router
- *  and send ETH to taxTo wallet address
+ *  and send ETH to taxTo wallet address when regular transfer
  */
 contract BlocjerkTokenV5 is BlocjerkTokenV4WithVersion, Uniswap {
   event SoldTax(uint256 tokensSold, uint256 ethReceived);

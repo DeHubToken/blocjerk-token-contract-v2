@@ -31,6 +31,7 @@ contract BlocjerkTokenV4WithVersion is
   // Convenience enum to differentiate transaction types.
   enum TransactionType {
     REGULAR,
+    TAX,
     SELL,
     BUY
   }
@@ -366,6 +367,8 @@ contract BlocjerkTokenV4WithVersion is
     } else if (!poolsToTax[from] && poolsToTax[to]) {
       // addr -> LP
       return TransactionType.SELL;
+    } else if (from == address(this) || to == address(this)) {
+      return TransactionType.TAX;
     }
     return TransactionType.REGULAR;
   }
