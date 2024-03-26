@@ -56,7 +56,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     sepolia: {
-      url: "https://ethereum-sepolia.blockpi.network/v1/rpc/public", // `https://eth-sepolia.public.blastapi.io`,
+      url: `https://ethereum-sepolia.publicnode.com`,
       accounts: [process.env.TESTNET_PRIVATE_KEY],
     },
     polygon: {

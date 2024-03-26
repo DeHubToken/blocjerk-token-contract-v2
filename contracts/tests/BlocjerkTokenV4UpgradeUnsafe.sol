@@ -3,20 +3,19 @@ pragma solidity ^0.8.3;
 
 // Slight modifiations from base Open Zeppelin Contracts
 // Consult /oz/README.md for more information
-import "./oz/ERC20Upgradeable.sol";
-import "./oz/ERC20SnapshotUpgradeable.sol";
-import "./oz/ERC20PausableUpgradeable.sol";
+import "../oz/ERC20Upgradeable.sol";
+import "../oz/ERC20SnapshotUpgradeable.sol";
+import "../oz/ERC20PausableUpgradeable.sol";
+import "./TestParent.sol";
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-/**
- * BlocjerkTokenV4 is a fork version of DeHubTokenV4 contract.
- */
-contract BlocjerkTokenV4 is
+contract BlocjerkTokenV4UpgradeUnsafe is
   OwnableUpgradeable,
   ERC20Upgradeable,
   ERC20PausableUpgradeable,
-  ERC20SnapshotUpgradeable
+  ERC20SnapshotUpgradeable,
+  TestParent
 {
   event AuthorizedSnapshotter(address account);
   event DeauthorizedSnapshotter(address account);
@@ -31,7 +30,7 @@ contract BlocjerkTokenV4 is
   uint256 public buyTaxRate;
   uint256 public sellTaxRate;
 
-  // TaxRate can be set differently according to DEX, while $BJ token can be added liquidity in several pools
+  // TaxRate can be set differently according to DEX, while $DHB token can be added liquidity in several pools
   // <address> is a pool address
   // If transfering from pool to user is buying tx,
   // If transfering to pool is selling tx
@@ -275,6 +274,7 @@ contract BlocjerkTokenV4 is
     internal
     virtual
     override(
+      TestParent,
       ERC20PausableUpgradeable,
       ERC20SnapshotUpgradeable,
       ERC20Upgradeable
@@ -298,7 +298,7 @@ contract BlocjerkTokenV4 is
     address sender,
     address recipient,
     uint256 amount
-  ) internal virtual override {
+  ) internal virtual override(TestParent, ERC20Upgradeable) {
     uint256 taxAmount = 0;
     // Calculate the tax amount based on whether it is a buy or sell
     if (poolsToTax[recipient]) {
