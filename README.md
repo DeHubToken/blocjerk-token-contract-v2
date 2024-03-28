@@ -67,3 +67,10 @@ Network | Contract Address
 --- | ---
 Ethereum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
 Arbitrum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
+
+### Pools
+
+Network | Pair | Contract Address
+--- | --- | ---
+Ethereum | $BJ+$WETH | 0x20dDbFd14F316D417f5B1a981B5Dc926a4dFd4D1
+Sepolia | $BJ+$WETH | 0x0190512Ad8Be3Ff42063e12aB7E353A038c4ecF5
