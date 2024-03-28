@@ -50,9 +50,27 @@ upgrade(
 
 Open $BJ contract on etherscan and confirm that contract was upgraded.
 
+## Operations TODO against BlocjerkTokenV5 upgrades
+
+NOTE: $BJ will be added liquidity on Uniswap V2 with $WETH
+
+- Call `addPoolToTax` or `removePoolToTax` to add or remove pools where takes tax fees of buying or selling
+- Call `setTaxTo` to set target address where tax fees will be transfered directly after swapping for WETH
+- Call `setMinTaxForSell` to set minimum tax fee amount to sell for ETH
+- Call `setRouter` to set Uniswap V2 Router and Pair address($BJ + $WETH)
+- Finally call `upgradeToV5` to mark all the setting is done
+
+
 ## Contract Addresses
 
 Network | Contract Address
 --- | ---
 Ethereum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
 Arbitrum | 0x9cAAe40DCF950aFEA443119e51E821D6FE2437ca
+
+### Pools
+
+Network | Pair | Contract Address
+--- | --- | ---
+Ethereum | $BJ+$WETH | 0x20dDbFd14F316D417f5B1a981B5Dc926a4dFd4D1
+Sepolia | $BJ+$WETH | 0x0190512Ad8Be3Ff42063e12aB7E353A038c4ecF5

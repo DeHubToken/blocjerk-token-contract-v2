@@ -9,10 +9,16 @@ import "./oz/ERC20PausableUpgradeable.sol";
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
+import {console} from "hardhat/console.sol";
+
 /**
- * BlocjerkTokenV4 is a fork version of DeHubTokenV4 contract.
+ * [Changes from BlocjerkTokenV4]
+ * - Check transaction type if buy or sell
+ * - Accumulate buy and sell tax fees
+ * - Transfer tax fees to token address
+ * - Add version
  */
-contract BlocjerkTokenV4 is
+contract BlocjerkTokenV4WithVersion is
   OwnableUpgradeable,
   ERC20Upgradeable,
   ERC20PausableUpgradeable,
@@ -21,6 +27,14 @@ contract BlocjerkTokenV4 is
   event AuthorizedSnapshotter(address account);
   event DeauthorizedSnapshotter(address account);
   event BuySellTaxRate(uint256 buyTaxRate, uint256 sellTaxRate);
+
+  // Convenience enum to differentiate transaction types.
+  enum TransactionType {
+    REGULAR,
+    TAX,
+    SELL,
+    BUY
+  }
 
   // Mapping which stores all addresses allowed to snapshot
   mapping(address => bool) authorizedToSnapshot;
@@ -38,6 +52,11 @@ contract BlocjerkTokenV4 is
   mapping(address => bool) public poolsToTax;
 
   address public taxTo;
+
+  // @deprecated do not use since V5
+  uint256 internal accumulatedTax;
+
+  uint256 public version;
 
   function initialize(
     string memory name,
@@ -267,6 +286,12 @@ contract BlocjerkTokenV4 is
     poolsToTax[pool_] = true;
   }
 
+  function removePoolToTax(address pool_) external onlyOwner {
+    require(pool_ != address(0));
+
+    poolsToTax[pool_] = false;
+  }
+
   function _beforeTokenTransfer(
     address from,
     address to,
@@ -299,22 +324,52 @@ contract BlocjerkTokenV4 is
     address recipient,
     uint256 amount
   ) internal virtual override {
-    uint256 taxAmount = 0;
-    // Calculate the tax amount based on whether it is a buy or sell
-    if (poolsToTax[recipient]) {
-      // sending tokens to pool, sell transaction
-      taxAmount = (amount * sellTaxRate) / 10000;
-    } else if (poolsToTax[sender]) {
-      // sending tokens from pool, buy transaction
-      taxAmount = (amount * buyTaxRate) / 10000;
-    }
+    uint256 taxAmount = _takeFee(sender, recipient, amount);
 
     // Transfer the amount minus the tax
     super._transfer(sender, recipient, amount - taxAmount);
 
-    // Transfer the tax to the tax wallet
-    if (taxTo != address(0) && taxAmount > 0) {
-      super._transfer(sender, taxTo, taxAmount);
+    // Transfer the tax to token contract
+    if (taxAmount > 0) {
+      super._transfer(sender, address(this), taxAmount);
+      accumulatedTax += taxAmount;
     }
+  }
+
+  function _takeFee(
+    address sender,
+    address recipient,
+    uint256 amount
+  ) internal virtual returns (uint256) {
+    // Calculate the tax amount based on whether it is a buy or sell
+    if (_getTransactionType(sender, recipient) == TransactionType.SELL) {
+      // sending tokens to pool, sell transaction
+      return (amount * sellTaxRate) / 10000;
+    } else if (_getTransactionType(sender, recipient) == TransactionType.BUY) {
+      // sending tokens from pool, buy transaction
+      return (amount * buyTaxRate) / 10000;
+    }
+    return 0;
+  }
+
+  /**
+   * @notice Helper function to determine what kind of transaction it is.
+   * @param from transaction sender
+   * @param to transaction receiver
+   */
+  function _getTransactionType(
+    address from,
+    address to
+  ) internal view returns (TransactionType) {
+    if (poolsToTax[from] && !poolsToTax[to]) {
+      // LP -> addr
+      return TransactionType.BUY;
+    } else if (!poolsToTax[from] && poolsToTax[to]) {
+      // addr -> LP
+      return TransactionType.SELL;
+    } else if (from == address(this) || to == address(this)) {
+      return TransactionType.TAX;
+    }
+    return TransactionType.REGULAR;
   }
 }

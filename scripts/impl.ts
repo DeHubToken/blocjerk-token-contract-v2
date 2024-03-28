@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers, network } from "hardhat";
-import { BlocjerkTokenV4__factory } from "../typechain";
+import { BlocjerkTokenV5__factory } from "../typechain";
 import { verifyContract } from "./helpers";
 
 const main = async () => {
@@ -21,7 +21,7 @@ const main = async () => {
     network.name === "bsc" ||
     network.name === "bscTestnet"
   ) {
-    const BlocjerkTokenFactory = new BlocjerkTokenV4__factory(deployer);
+    const BlocjerkTokenFactory = new BlocjerkTokenV5__factory(deployer);
     const dehubToken = await BlocjerkTokenFactory.deploy();
     await dehubToken.deployed();
 
